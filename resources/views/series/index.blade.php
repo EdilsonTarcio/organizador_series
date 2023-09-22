@@ -1,13 +1,21 @@
 <x-layout title="{{$title}}">
     <div class="col-lg-6">
-        @isset($mensagemSucesso)        
+        <!--Mensagem para adição de serie -->
+        @isset($mensagemSucesso)  
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-                {{ $mensagemSucesso }}
-            </div>
+            {{ $mensagemSucesso }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>    
+        @endisset
+        <!--Mensagem para deleção de serie -->
+        @isset($mensagemDelecao)
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{$mensagemDelecao}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
         </div>
         @endisset
         <div class="card">
@@ -31,11 +39,16 @@
                             <th scope="row">{{$serie->id}}</th>
                             <td>{{$serie->nome}}</td>
                             <td>
-                                <form action="{{route('series.destroy', $serie->id) }}" method="post">
-                                    @csrf
-                                    @method('DELETE');
-                                    <button type="submit" class="btn btn-danger">Apagar</button>
-                                </form>
+                                <span class="d-flex button-list">
+                                    <a href="{{route('series.edit', $serie->id)}}" class="btn btn-primary btn-sm">
+                                        editar
+                                    </a>
+                                    <form action="{{route('series.destroy', $serie->id) }}" method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger">Apagar</button>
+                                    </form>
+                                </span>
                             </td>
                             </tr>
                             @endforeach

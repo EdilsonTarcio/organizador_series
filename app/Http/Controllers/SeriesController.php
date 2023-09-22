@@ -8,9 +8,6 @@ use Illuminate\Support\Facades\DB;
 
 class SeriesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
         //return redirect('https://google.com');
@@ -28,20 +25,18 @@ class SeriesController extends Controller
         //dd($series);
         $title = 'Séries';
         $mensagemSucesso = $request->session()->get('mensagem.sucesso');
-        return view('series.index', ['series'=>$series],['title'=>$title],['mensagemSucesso'=>$mensagemSucesso]);
+        $mensagemDelecao = $request->session()->get('mensagem.delecao');
+        return view('series.index')->with('series', $series)
+        ->with('title', $title)
+        ->with('mensagemDelecao', $mensagemDelecao)
+        ->with('mensagemSucesso', $mensagemSucesso);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('series.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         /*
@@ -54,43 +49,41 @@ class SeriesController extends Controller
 
             #dd($request->all());
         Series::create($request->all());
+        #dd($request->all());
         #return redirect('/series');
-        return to_route('series.index');
+        #$request->session()->flash('mensagem.sucesso', "Serie '{$request->nome}' adicionada com sucesso");
+        return to_route('series.index')
+        ->with('mensagem.sucesso', "Serie '{$request->nome}' adicionada com sucesso");
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Series $series)
     {
-        //
+        return view('series.edit')->with('serie', $series);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Series $series, Request $request)
     {
-        //
+        #$series->nome = $request->nome;
+        $series->fill($request->all());
+        $series->save();
+        return to_route('series.index')->with('mensagem.sucesso', "Série '{$series->nome}' Atualizada com sucesso");
     }
+    /*como vem um inteiro da rota passando o nome da model como parametro da função
+    o Laravel já busca os dados*/
+    public function destroy(Series $series, Request $request)
+    {//já entra na funçai fazendo um select na model buscando a serie
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Request $request)
-    {
-        #dd($request->series);
-        Series::destroy($request->series);
-        $request->session()->flash('menssagem.sucesso', 'Série Removida com sucesso');
-        return to_route('series.index');
+        #$serie = Series::find($request->series);
+        #Series::destroy($request->series);
+        $series->delete();
+        #$request->session()->flash('mensagem.delecao', "Série '{$series->nome}' Removida com sucesso");
+        return to_route('series.index')
+        ->with('mensagem.delecao', "Série '{$series->nome}' Removida com sucesso");
 
     }
 }
