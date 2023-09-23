@@ -23,7 +23,7 @@ class SeriesFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nome' => ['required', 'min:3', 'regex:[a-zA-Z.]'],
+            'nome' => ['required', 'min:3'],
         ];
     }
 
@@ -32,7 +32,6 @@ class SeriesFormRequest extends FormRequest
         return [
             'nome.required' => 'Oxx tu já viu uma serie sem nome? 🤨',
             'nome.min' => 'Coloca um nome maior que :min caracteres ai! 😎',
-            'nome.regex' => 'Opa é uma serie ou uma conta?'
         ];
     }
 }

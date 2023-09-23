@@ -22,7 +22,8 @@ class SeriesController extends Controller
             $data['titles'] = 'Séries';*/
             #$series = DB::select('SELECT id, nome FROM series;');
             #$series = Series::all();
-        $series = Series::query()->orderBy('nome')->get();
+        //Ordenando pelo escopo global
+        $series = Series::query()->get();
         //dd($series);
         $title = 'Séries';
         $mensagemSucesso = $request->session()->get('mensagem.sucesso');
@@ -69,6 +70,10 @@ class SeriesController extends Controller
 
     public function edit(Series $series)
     {
+        //lista todas as temporadas da Serie
+        //(temporadas) nome da função de relacionamento em forma de propriedade
+        //(temporadas()) nome da função de relacionamento em forma de metodo da acesso ao relacionamento tem que usar o ->get() para pegar a coleção
+        //dd($series->temporadas);
         return view('series.edit')->with('serie', $series);
     }
 

@@ -117,9 +117,8 @@
                     <!-- Start Content-->
                     <div class="container-fluid">
                         <div class="row page-title">
-                            <div class="col-md-12">
-                                @if ($errors->any())
-                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            @if ($errors->any())
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                     <ul>
                                         @foreach ($errors->all() as $error)
                                             <li>{{ $error }}</li>
@@ -137,6 +136,8 @@
                                         <li class="breadcrumb-item active" aria-current="page">Starter</li>
                                     </ol>
                                 </nav>
+                                <br>
+                                <div class="col-md-12">
                                 {{$slot}}
                             </div>
                         </div>
