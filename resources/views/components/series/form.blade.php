@@ -1,9 +1,9 @@
 <form action="{{ $action }}" method="POST">
     @csrf
-    @isset($nome)
+    @if($update)
         <!-- Se o nome for definido, quer dizer que é uma atualização, com isso muda o method para put -->
         @method('PUT')
-    @endisset
+    @endif
     <label for="name">Nome:</label>
     <input type="text"
             id="nome"
@@ -11,7 +11,7 @@
             class="form-control"
             @isset($nome)
                 value="{{$nome}}"
-            @endisset required>
+            @endisset>
             <br>
     <button type="submit" class="btn btn-success">Enviar</button>
 </form>
