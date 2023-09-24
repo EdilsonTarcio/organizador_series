@@ -37,7 +37,10 @@
                             @foreach ($series as $serie)
                             <tr>
                             <th scope="row">{{$serie->id}}</th>
-                            <td>{{$serie->nome}}</td>
+                            <td>
+                                <a href=" {{ route('temporada.index', $serie->id) }} ">
+                                    {{$serie->nome}}</td>
+                                </a>
                             <td>
                                 <span class="d-flex button-list">
                                     <a href="{{route('series.edit', $serie->id)}}" class="btn btn-primary btn-sm">

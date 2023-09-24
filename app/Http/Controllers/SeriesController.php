@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Series;
 use Illuminate\Http\Request;
 use App\Http\Requests\SeriesFormRequest;
+use App\Models\Episodio;
+use App\Models\Temporada;
 use Illuminate\Support\Facades\DB;
 
 class SeriesController extends Controller
@@ -53,10 +55,33 @@ class SeriesController extends Controller
         $request->validate([
             'nome' => ['required', 'min:3']
         ]);*/
-
         //caso o validate não satisfaça é redirecionado para a ultima rota com os dados em flash messagem
-        Series::create($request->all());
-        
+        //Series::create($request->all());
+        $serie = Series::create($request->all());
+        $temporadas=[];
+        for ($i = 1; $i <= $request->qtdTemporadas; $i++){
+            $temporadas[] = [
+                'series_id' => $serie->id,
+                'numero' => $i,
+                'created_at' => date("Y-m-d H:i:s")
+            ];
+        }
+        Temporada::insert($temporadas);
+
+        $episodios =[];
+        foreach ($serie->temporadas as $temporada) {
+            for ($j = 1; $j <= $request->epTemp; $j++){
+                $episodios[] = [
+                    'numero' => $j,
+                    'temporada_id' => $temporada->id,
+                    'created_at' => date("Y-m-d H:i:s")
+                ];
+                
+            }
+        }
+        Episodio::insert($episodios);
+
+
         #return redirect('/series');
         #$request->session()->flash('mensagem.sucesso', "Serie '{$request->nome}' adicionada com sucesso");
         return to_route('series.index')

@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SeriesController;
-
+use App\Http\Controllers\TemporadaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +20,4 @@ Route::get('/', function () {
 });
 
 Route::resource('series', SeriesController::class);
+Route::get('/series/{serie}/temporada', [TemporadaController::class, 'index'])->name('temporada.index');
