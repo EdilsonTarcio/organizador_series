@@ -5,14 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Series;
 use Illuminate\Http\Request;
 use App\Http\Requests\SeriesFormRequest;
-use App\Models\Episodio;
-use App\Models\Temporada;
-use Illuminate\Support\Facades\DB;
+use App\Repositories\SeriesRepository;
 
 class SeriesController extends Controller
 {
+    public function __construct(private SeriesRepository $repository)
+    {//inversão de dependencia, no lugar de depender de algo concreto como o repositori, vai depender de uma abstração 
+     //que é uma interface "SeriesRepository"
+        
+    }
     public function index(Request $request)
-    {
+     {
         //return redirect('https://google.com');
             /*$data['series']=[
                 'Onepiece',
@@ -49,41 +52,23 @@ class SeriesController extends Controller
             $serie->nome = $nomeSerie;
             $serie->save();
             #DB::insert('INSERT INTO series (nome) VALUES (?)', [$nomeSerie]);
-        */
+            */
 
-        /* //enviado para o Request SeriesFormRequest
-        $request->validate([
-            'nome' => ['required', 'min:3']
-        ]);*/
-        //caso o validate não satisfaça é redirecionado para a ultima rota com os dados em flash messagem
-        //Series::create($request->all());
-        $serie = Series::create($request->all());
-        $temporadas=[];
-        for ($i = 1; $i <= $request->qtdTemporadas; $i++){
-            $temporadas[] = [
-                'series_id' => $serie->id,
-                'numero' => $i,
-                'created_at' => date("Y-m-d H:i:s")
-            ];
-        }
-        Temporada::insert($temporadas);
+            /* //enviado para o Request SeriesFormRequest
+            $request->validate([
+                'nome' => ['required', 'min:3']
+            ]);*/
+            //caso o validate não satisfaça é redirecionado para a ultima rota com os dados em flash messagem
+            //Series::create($request->all());
 
-        $episodios =[];
-        foreach ($serie->temporadas as $temporada) {
-            for ($j = 1; $j <= $request->epTemp; $j++){
-                $episodios[] = [
-                    'numero' => $j,
-                    'temporada_id' => $temporada->id,
-                    'created_at' => date("Y-m-d H:i:s")
-                ];
-                
-            }
-        }
-        Episodio::insert($episodios);
-
+        
 
         #return redirect('/series');
         #$request->session()->flash('mensagem.sucesso', "Serie '{$request->nome}' adicionada com sucesso");
+
+        $serie = $this->repository->adicionar($request);
+             // Acessando a propriedade do construtor
+
         return to_route('series.index')
         ->with('mensagem.sucesso', "Serie '{$request->nome}' adicionada com sucesso");
     }
@@ -111,6 +96,7 @@ class SeriesController extends Controller
     }
     /*como vem um inteiro da rota passando o nome da model como parametro da função
     o Laravel já busca os dados*/
+    
     public function destroy(Series $series, Request $request)
     {//já entra na funçai fazendo um select na model buscando a serie
 
