@@ -15,16 +15,18 @@
                             @foreach ($temporadas as $temporada)
                             <tr>
                             <th scope="row">
-                                Temporada {{$temporada->numero}}
+                                <a href="{{ route('episodios.index', $temporada->id) }}">
+                                    Temporada {{$temporada->numero}}
+                                </a>
                             </th>
                             <td class="text-center">
-                                {{$temporada->episodios->count()}}</td>
+                               {{$temporada->numeroEpisodiosAssistidos()}} / {{$temporada->episodios->count()}}</td>
                                 <!-- cont() soma a quantidade de episodios tipo um contador -->                        
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
-                    <a class="btn btn-primary btn-sm" href="">Voltar</a>
+                    <a class="btn btn-primary btn-sm" href="{{ url()->previous() }}">Voltar</a>
                 </div>
             </div>
         </div>

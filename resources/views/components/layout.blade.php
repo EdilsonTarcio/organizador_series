@@ -117,6 +117,22 @@
                     <!-- Start Content-->
                     <div class="container-fluid">
                         <div class="row page-title">
+                            @isset($mensagemSucesso)  
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    {{ $mensagemSucesso }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>    
+                            @endisset
+                            @isset($mensagemDelecao)
+                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    {{$mensagemDelecao}}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                            @endisset
                             @if ($errors->any())
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                     <ul>

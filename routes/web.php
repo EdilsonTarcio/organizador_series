@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EpisodesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SeriesController;
 use App\Http\Controllers\TemporadaController;
@@ -21,3 +22,5 @@ Route::get('/', function () {
 
 Route::resource('series', SeriesController::class);
 Route::get('/series/{serie}/temporada', [TemporadaController::class, 'index'])->name('temporada.index');
+Route::get('/temporadas/{temporada}/episodios', [EpisodesController::class, 'index'])->name('episodios.index');
+Route::post('/temporadas/{temporada}/episodios', [EpisodesController::class, 'update'])->name('episodios.update');

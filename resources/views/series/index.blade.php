@@ -1,23 +1,5 @@
-<x-layout title="{{$title}}">
+<x-layout title="{{$title}}" :mensagem-sucesso="$mensagemSucesso">
     <div class="col-lg-6">
-        <!--Mensagem para adição de serie -->
-        @isset($mensagemSucesso)  
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ $mensagemSucesso }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">×</span>
-            </button>
-        </div>    
-        @endisset
-        <!--Mensagem para deleção de serie -->
-        @isset($mensagemDelecao)
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            {{$mensagemDelecao}}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">×</span>
-            </button>
-        </div>
-        @endisset
         <div class="card">
             <div class="card-body">                   
                 <div class="row">
