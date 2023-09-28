@@ -6,6 +6,7 @@ use App\Models\Series;
 use Illuminate\Http\Request;
 use App\Http\Requests\SeriesFormRequest;
 use App\Repositories\SeriesRepository;
+use Illuminate\Support\Facades\Auth;
 
 class SeriesController extends Controller
 {
@@ -84,6 +85,8 @@ class SeriesController extends Controller
         //(temporadas) nome da função de relacionamento em forma de propriedade
         //(temporadas()) nome da função de relacionamento em forma de metodo da acesso ao relacionamento tem que usar o ->get() para pegar a coleção
         //dd($series->temporadas);
+
+        #dd(Auth::user());
         return view('series.edit')->with('serie', $series);
     }
 

@@ -41,7 +41,9 @@
                 </div>
             </div>
             <!-- end Topbar -->
+            
             <!-- ========== Left Sidebar Start ========== -->
+            @auth
             <div class="left-side-menu">
                 <div class="media user-profile mt-2 mb-2">
                     <div class="media-body">
@@ -108,6 +110,7 @@
                 </div>
                 <!-- Sidebar -left -->
             </div>
+            @endauth
             <!-- Left Sidebar End -->
             <!-- ============================================================== -->
             <!-- Start Page Content here -->
@@ -145,6 +148,7 @@
                                     </button>
                                 </div>
                                 @endif
+                                @auth    
                                 <nav aria-label="breadcrumb" class="float-right mt-1">
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="#">Shreyu</a></li>
@@ -152,6 +156,7 @@
                                         <li class="breadcrumb-item active" aria-current="page">Starter</li>
                                     </ol>
                                 </nav>
+                                @endauth
                                 <br>
                                 <div class="col-md-12">
                                 {{$slot}}

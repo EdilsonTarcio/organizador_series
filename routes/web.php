@@ -23,14 +23,17 @@ Route::get('/', function () {
     return redirect('login');
 });
 
-Route::resource('series', SeriesController::class)->middleware(Autenticador::class);
-Route::get('/series/{serie}/temporada', [TemporadaController::class, 'index'])->name('temporada.index');
-Route::get('/temporadas/{temporada}/episodios', [EpisodesController::class, 'index'])->name('episodios.index');
-Route::post('/temporadas/{temporada}/episodios', [EpisodesController::class, 'update'])->name('episodios.update');
+//agrupando rotas dentro do middleware
+Route::middleware(Autenticador::class)->group(function(){
+
+    Route::resource('series', SeriesController::class);
+    Route::get('/series/{serie}/temporada', [TemporadaController::class, 'index'])->name('temporada.index');
+    Route::get('/temporadas/{temporada}/episodios', [EpisodesController::class, 'index'])->name('episodios.index');
+    Route::post('/temporadas/{temporada}/episodios', [EpisodesController::class, 'update'])->name('episodios.update');    
+    Route::get('/registrar', [UsersController::class, 'create'])->name('users.create');
+    Route::post('/registrar', [UsersController::class, 'store'])->name('users.store');
+});
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::get('/sair', [LoginController::class, 'destroy'])->name('sair.logout');
 Route::post('/login', [LoginController::class, 'store'])->name('logar');
-
-Route::get('/registrar', [UsersController::class, 'create'])->name('users.create');
-Route::post('/registrar', [UsersController::class, 'store'])->name('users.store');
