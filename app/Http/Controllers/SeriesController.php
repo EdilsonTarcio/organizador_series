@@ -6,6 +6,7 @@ use App\Models\Series;
 use Illuminate\Http\Request;
 use App\Http\Requests\SeriesFormRequest;
 use App\Mail\SeriesCreated;
+use App\Models\User;
 use App\Repositories\SeriesRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -78,7 +79,31 @@ class SeriesController extends Controller
             $serie->id
         );
         //está enviandopara o usuario logado
-        Mail::to(Auth::user())->send($email);
+        /*
+            Mail::to(Auth::user())->send($email);   
+        */
+            
+        //enviando e-mail para todos os usuarios do sistema, irá enviar todos de uma vez
+        /*  $userList = User::all();
+            foreach ($userList as $user) {
+                $email = new SeriesCreated(
+                    $serie->nome,
+                    $serie->id
+                );
+                Mail::to($user)->queue($email);
+            }
+        */
+
+        //enviando para todos os usuarios com uma data definida e um delay definido na aplicação
+        $userList = User::all();
+            foreach ($userList as $index => $user) {
+                $email = new SeriesCreated(
+                    $serie->nome,
+                    $serie->id
+                );
+                $tempo = now()->addSeconds( $index * 3 );
+                Mail::to($user)->later($tempo,$email);
+            }
 
         return to_route('series.index')
         ->with('mensagem.sucesso', "Serie '{$request->nome}' adicionada com sucesso");
