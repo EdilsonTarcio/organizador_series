@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Series extends Model
 {
     use HasFactory;
-    protected $fillable = ['nome'];
+    protected $fillable = ['nome', 'cover'];
     #protected $primarykey = 'id';
     #protected $with = ['temporadas'];
     //metodo traria sempre as temporadas junto com as Series

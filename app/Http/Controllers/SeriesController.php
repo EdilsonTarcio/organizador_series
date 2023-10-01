@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Events\SeriesCreated as EventsSeriesCreated;
+use App\Jobs\DeleteSeriesCover as DeleteSeriesCoverJob;
 use App\Models\Series;
 use Illuminate\Http\Request;
 use App\Http\Requests\SeriesFormRequest;
-use App\Mail\SeriesCreated;
 use App\Repositories\SeriesRepository;
-use Illuminate\Support\Facades\Auth;
 
 
 class SeriesController extends Controller
@@ -50,6 +49,14 @@ class SeriesController extends Controller
 
     public function store(/*Request*/ SeriesFormRequest $request)
     {
+        #dd($request->file('cover'));
+        $coverPath = $request->file('cover')
+            ->store('series_cover', 'public');
+        #$coverPath = $request->file('cover')->storeAs('series_cover', $request->nome.'cover.jpg', 'public');
+        //storeAs('pasta onde irá salvar', 'nome do arquivo', 'FILESYSTEM')
+        //adicionando o coverPath ao request
+        $request['coverPath'] = $coverPath;
+        
         /*
             $nomeSerie = $request->input('nome');
             $serie = new Series();
@@ -130,6 +137,9 @@ class SeriesController extends Controller
         #$serie = Series::find($request->series);
         #Series::destroy($request->series);
         $series->delete();
+
+        DeleteSeriesCoverJob::dispatch($series->cover); // job para excluir a imagen da serie
+
         #$request->session()->flash('mensagem.delecao', "Série '{$series->nome}' Removida com sucesso");
         return to_route('series.index')
         ->with('mensagem.delecao', "Série '{$series->nome}' Removida com sucesso");

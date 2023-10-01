@@ -15,7 +15,10 @@ class EloquentSeriesRepository implements SeriesRepository
         // DB::transaction -> realizad todas as transações e realiza um commit no final 
         // Caso dê erro em uma transação o Laravel realiza o rolback altomaticamente
         return DB::transaction( function() use ($request){
-            $serie = Series::create($request->all());
+            $serie = Series::create([
+                'nome' => $request->nome,
+                'cover' =>$request->coverPath
+            ]);
         $temporadas=[];
         for ($i = 1; $i <= $request->qtdTemporadas; $i++){
             $temporadas[] = [

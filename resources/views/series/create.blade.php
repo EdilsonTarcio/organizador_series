@@ -1,10 +1,11 @@
 <x-layout title="Nova Série">
     <!-- os " : " informa ao blade que é para interpretar como código--> 
-    <form action="{{ route('series.store') }}" method="POST">
+    <form action="{{ route('series.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="row md-3">
             <div class="col-8">
                 <label for="name">Nome:</label>
+
                 <input type="text"
                 autofocus
                 id="nome"
@@ -27,6 +28,14 @@
                 name="epTemp"
                 class="form-control"
                 value="{{old('epTemp')}}">
+            </div>
+            <div class="col-12">
+                <label for="cover" class="form-label">Capa</label>
+                <input type="file"
+                    id="cover" 
+                    name="cover" 
+                    class="form-control"
+                    accept="image/jpeg, image/png">
             </div>
         </div>
         <br>

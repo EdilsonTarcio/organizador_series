@@ -11,6 +11,7 @@
                         <thead>
                             <tr>
                             <th scope="col">#</th>
+                            <th>Capa</th>
                             <th scope="col">Nome</th>
                             <th scope="col">Ação</th>
                             </tr>
@@ -19,6 +20,9 @@
                             @foreach ($series as $serie)
                             <tr>
                             <th scope="row">{{$serie->id}}</th>
+                            <td>
+                                <img src="{{ asset('storage/'. $serie->cover) }}" class="avatar rounded mr-3" alt="Capa da série">
+                            </td>
                             <td>
                                 <a href=" {{ route('temporada.index', $serie->id) }} ">
                                     {{$serie->nome}}</td>

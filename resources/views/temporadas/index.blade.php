@@ -7,6 +7,7 @@
                         Serie: {{$serie->nome}}
                         <thead>
                             <tr>
+                            <th></th>
                             <th scope="col">Temporada</th>
                             <th class="text-center" scope="col">Episodios por temporada</th>
                             </tr>
@@ -14,6 +15,9 @@
                         <tbody>
                             @foreach ($temporadas as $temporada)
                             <tr>
+                            <th>
+                                <img src="{{ asset('storage/'. $serie->cover) }}" class="avatar rounded mr-3" alt="Capa da série">
+                            </th>
                             <th scope="row">
                                 <a href="{{ route('episodios.index', $temporada->id) }}">
                                     Temporada {{$temporada->numero}}
