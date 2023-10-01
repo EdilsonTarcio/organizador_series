@@ -11,7 +11,7 @@
                         <thead>
                             <tr>
                             <th scope="col">#</th>
-                            <th>Capa</th>
+                            <th></th>
                             <th scope="col">Nome</th>
                             <th scope="col">Ação</th>
                             </tr>
@@ -21,7 +21,9 @@
                             <tr>
                             <th scope="row">{{$serie->id}}</th>
                             <td>
+                                @isset($serie->cover)
                                 <img src="{{ asset('storage/'. $serie->cover) }}" class="avatar rounded mr-3" alt="Capa da série">
+                                @endisset
                             </td>
                             <td>
                                 <a href=" {{ route('temporada.index', $serie->id) }} ">

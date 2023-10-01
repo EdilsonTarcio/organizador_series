@@ -50,8 +50,9 @@ class SeriesController extends Controller
     public function store(/*Request*/ SeriesFormRequest $request)
     {
         #dd($request->file('cover'));
-        $coverPath = $request->file('cover')
-            ->store('series_cover', 'public');
+        $coverPath = $request->hasFile('cover')
+            ? $request->file('cover')->store('series_cover', 'public')
+            : null;
         #$coverPath = $request->file('cover')->storeAs('series_cover', $request->nome.'cover.jpg', 'public');
         //storeAs('pasta onde irá salvar', 'nome do arquivo', 'FILESYSTEM')
         //adicionando o coverPath ao request

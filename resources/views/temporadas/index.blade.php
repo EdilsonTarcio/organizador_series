@@ -16,7 +16,9 @@
                             @foreach ($temporadas as $temporada)
                             <tr>
                             <th>
+                                @isset($serie->cover)
                                 <img src="{{ asset('storage/'. $serie->cover) }}" class="avatar rounded mr-3" alt="Capa da série">
+                                @endisset
                             </th>
                             <th scope="row">
                                 <a href="{{ route('episodios.index', $temporada->id) }}">
