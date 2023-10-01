@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SeriesCreated as EventsSeriesCreated;
 use App\Models\Series;
 use Illuminate\Http\Request;
 use App\Http\Requests\SeriesFormRequest;
 use App\Mail\SeriesCreated;
-use App\Models\User;
 use App\Repositories\SeriesRepository;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
+
 
 class SeriesController extends Controller
 {
@@ -74,9 +74,9 @@ class SeriesController extends Controller
         $serie = $this->repository->adicionar($request);
              // Acessando a propriedade do construtor
 
-        $email = new SeriesCreated(
-            $serie->nome,
-            $serie->id
+        EventsSeriesCreated::dispatch(
+        $serie->nome,
+        $serie->id
         );
         //está enviandopara o usuario logado
         /*
@@ -93,17 +93,6 @@ class SeriesController extends Controller
                 Mail::to($user)->queue($email);
             }
         */
-
-        //enviando para todos os usuarios com uma data definida e um delay definido na aplicação
-        $userList = User::all();
-            foreach ($userList as $index => $user) {
-                $email = new SeriesCreated(
-                    $serie->nome,
-                    $serie->id
-                );
-                $tempo = now()->addSeconds( $index * 3 );
-                Mail::to($user)->later($tempo,$email);
-            }
 
         return to_route('series.index')
         ->with('mensagem.sucesso', "Serie '{$request->nome}' adicionada com sucesso");
