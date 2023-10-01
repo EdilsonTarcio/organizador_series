@@ -47,8 +47,8 @@
             <div class="left-side-menu">
                 <div class="media user-profile mt-2 mb-2">
                     <div class="media-body">
-                        <h6 class="pro-user-name mt-0 mb-0">Nik Patel</h6>
-                        <span class="pro-user-desc">Administrator</span>
+                        <h6 class="pro-user-name mt-0 mb-0">{{ Auth::user()->name }}</h6>
+                        <span class="pro-user-desc"></span>
                     </div>
                     <div class="dropdown align-self-center profile-dropdown-menu">
                         <a class="dropdown-toggle mr-0" data-toggle="dropdown" href="#" role="button" aria-haspopup="false"

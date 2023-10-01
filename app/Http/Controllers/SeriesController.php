@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Series;
 use Illuminate\Http\Request;
 use App\Http\Requests\SeriesFormRequest;
+use App\Mail\SeriesCreated;
 use App\Repositories\SeriesRepository;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class SeriesController extends Controller
 {
@@ -66,9 +68,17 @@ class SeriesController extends Controller
 
         #return redirect('/series');
         #$request->session()->flash('mensagem.sucesso', "Serie '{$request->nome}' adicionada com sucesso");
+        
 
         $serie = $this->repository->adicionar($request);
              // Acessando a propriedade do construtor
+
+        $email = new SeriesCreated(
+            $serie->nome,
+            $serie->id
+        );
+        //está enviandopara o usuario logado
+        Mail::to(Auth::user())->send($email);
 
         return to_route('series.index')
         ->with('mensagem.sucesso', "Serie '{$request->nome}' adicionada com sucesso");
