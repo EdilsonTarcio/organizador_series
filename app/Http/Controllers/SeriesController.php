@@ -143,7 +143,9 @@ class SeriesController extends Controller
         #Series::destroy($request->series);
         $series->delete();
 
-        DeleteSeriesCoverJob::dispatch($series->cover); // job para excluir a imagen da serie
+        if ($series->cover != null){
+            DeleteSeriesCoverJob::dispatch($series->cover); // job para excluir a imagen da serie
+        }
 
         #$request->session()->flash('mensagem.delecao', "Série '{$series->nome}' Removida com sucesso");
         return to_route('series.index')
